@@ -65,14 +65,13 @@ do
                 read -p "Enter your team number:" number
                 team_name=$(cat $1 | tail -n+2 | awk -F',' -v num=$number 'NR==num{print $1}')
                 score=$(cat $3 | awk -F',' -v team="$team_name" -v max_value=0 '$3==team{
-                value = ($6-$5);
-                if (value < 0) value = -value; 
+                value = ($5-$6);
                 if(value > max_value) max_value = value;
                 }
                 END{
                 print max_value;
 		}')
-		cat $3 | awk -F',' -v team="$team_name" -v score="$score" '$3==team && ((($6-$5)==score||($5-$6)==score)) {print"";print $1; print $3,$5 " vs " $6, $4}'
+		cat $3 | awk -F',' -v team="$team_name" -v score="$score" '$3==team && ($5-$6)==score {print"";print $1; print $3,$5 " vs " $6, $4}'
                 ;;
         7)
                 echo "Bye!"
